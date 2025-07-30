@@ -69,8 +69,3 @@ class MinHeap {
     }
 }
 
-
-function scrollToCanvas() {
-    const canvas = document.getElementById("gridCanvas");
-    canvas.scrollIntoView({ behavior: "smooth", block: "center" });
-}
