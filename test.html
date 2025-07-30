@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pathfinding Test</title>
+</head>
+
+<body>
+    <h1>Console Test for A*</h1>
+    <script src="js/utils.js"></script>
+    <script src="js/pathfinding.js"></script>
+    <script>
+
+        const grid = [
+            [0, 0, 0, 0, 0, 0],
+            [0, 1, 0, 1, 0, 0],
+            [0, 1, 0, 1, 0, 0],
+            [0, 0, 0, 0, 0, 0],
+            [0, 1, 0, 1, 0, 0],
+            [0, 1, 0, 1, 0, 0],
+        ];
+
+        const start = [0, 0];
+        const finish = [5, 5];
+        const shelves = [[0, 1], [0, 3], [3, 1], [3, 3]];
+
+
+        const permutations = getPermutations(shelves);
+        let bestPath = null;
+        let bestOrder = null;
+        let bestCost = Infinity;
+
+        for (const perm of permutations) {
+            let current = start;
+            let totalPath = [];
+            let totalCost = 0;
+            let valid = true;
+
+            for (const shelf of perm) {
+                const { path } = astar(grid, current, shelf);
+                if (!path) {
+                    valid = false;
+                    break;
+                }
+                if (totalPath.length > 0) {
+                    totalPath = totalPath.concat(path.slice(1));
+                } else {
+                    totalPath = totalPath.concat(path);
+                }
+                totalCost += path.length - 1;
+                current = shelf;
+            }
+
+            if (!valid) continue;
+
+            const { path: finalPath } = astar(grid, current, finish);
+            if (!finalPath) continue;
+
+            totalPath = totalPath.concat(finalPath.slice(1));
+            totalCost += finalPath.length - 1;
+
+            if (totalCost < bestCost) {
+                bestCost = totalCost;
+                bestPath = totalPath;
+                bestOrder = perm;
+            }
+        }
+
+        console.log("Best order:", bestOrder);
+        console.log("Best path:", bestPath);
+        console.log("Total steps:", bestCost);
+    </script>
+</body>
+
+</html>
