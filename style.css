@@ -4,7 +4,8 @@
     background-color: #f9f9f9;
     padding: 15px;
     border-radius: 8px;
-    max-width: 600px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .results-container h2 {
@@ -19,6 +20,8 @@
     max-height: 300px;
     overflow-y: auto;
     margin-top: 10px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 #permDropdown {
@@ -32,4 +35,15 @@
     padding: 6px 12px;
     font-size: 14px;
     cursor: pointer;
+}
+
+.columns {
+    display: flex;
+    gap: 20px;
+}
+
+.column {
+    flex: 1;
+    border: 1px solid #ccc;
+    padding: 10px;
 }

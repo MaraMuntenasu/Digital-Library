@@ -9,35 +9,52 @@
       border: 1px solid #ccc;
     }
   </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
+
 <body>
-  <h1>Pathfinding Visualizer</h1>
-  <canvas id="gridCanvas" width="600" height="600"></canvas>
   <script src="js/utils.js"></script>
   <script src="js/pathfinding.js"></script>
   <script src="js/grid.js"></script>
   <script src="js/app.js"></script>
 
 
-  <div id="results" class="results-container">
-    <h2>Pathfinding Results</h2>
-    <p><strong>Total Steps:</strong> <span id="stepCount"></span></p>
-    <p><strong>Visited Documents (in order):</strong></p>
-    <ul id="documentOrder"></ul>
-    <p><strong>Full Path:</strong></p>
-    <code id="fullPath"></code>
-  </div>
+  <h1>Pathfinding Visualizer</h1>
+
+  <div class="columns">
+    <div class="column">
+      <canvas id="gridCanvas" width="600" height="600"></canvas>
+    </div>
+    <div class="column">
+
+      <div id="results" class="results-container">
+        <h2>Pathfinding Results</h2>
+        <p><strong>Total Steps:</strong> <span id="stepCount"></span></p>
+        <p><strong>Visited Documents (in order):</strong></p>
+        <ul id="documentOrder"></ul>
+        <p><strong>Full Path:</strong></p>
+        <code id="fullPath"></code>
+      </div>
 
 
-  <div id="permutationList" class="results-container">
-    <h2>All Permutations</h2>
-    <p>Total valid permutations: <span id="permCount"></span></p>
-    <div class="dropdown-container">
-      <select id="permDropdown" size="10"></select>
-      <button id="loadVisualsBtn">Load visuals</button>
+      <div id="permutationList" class="results-container">
+        <h2>All Permutations</h2>
+        <p>Total valid permutations: <span id="permCount"></span></p>
+        <div class="dropdown-container">
+          <select id="permDropdown" size="10"></select>
+          <button id="loadVisualsBtn">Load visuals</button>
+        </div>
+      </div>
     </div>
   </div>
+
+
+
+
+
+
+
 
 
 </body>
