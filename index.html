@@ -2,61 +2,44 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Pathfinding Visualizer</title>
-  <style>
-    canvas {
-      border: 1px solid #ccc;
-    }
-  </style>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Digital Library - Testcase Editor</title>
+    <link rel="stylesheet" href="style.css">    
 </head>
 
-
 <body>
-  <script src="js/utils.js"></script>
-  <script src="js/pathfinding.js"></script>
-  <script src="js/grid.js"></script>
-  <script src="js/app.js"></script>
 
 
-  <h1>Pathfinding Visualizer</h1>
+    <h1>Pathfinding Visualizer Editor</h1>
 
-  <div class="columns">
-    <div class="column">
-      <canvas id="gridCanvas" width="600" height="600"></canvas>
-    </div>
-    <div class="column">
+    <div class="columns">
+        <div class="column left-column">
 
-      <div id="results" class="results-container">
-        <h2>Pathfinding Results</h2>
-        <p><strong>Total Steps:</strong> <span id="stepCount"></span></p>
-        <p><strong>Visited Documents (in order):</strong></p>
-        <ul id="documentOrder"></ul>
-        <p><strong>Full Path:</strong></p>
-        <code id="fullPath"></code>
-      </div>
+            <div id="controls">
+                <label>Grid Size:
+                    <input type="number" id="gridSizeInput" value="6" min="2" max="20">
+                </label>
+                <button onclick="createGrid()">Create new Grid</button>
+                <button onclick="exportGrid()">Run Simulation</button>
+            </div>
 
-
-      <div id="permutationList" class="results-container">
-        <h2>All Permutations</h2>
-        <p>Total valid permutations: <span id="permCount"></span></p>
-        <div class="dropdown-container">
-          <select id="permDropdown" size="10"></select>
-          <button id="loadVisualsBtn">Load visuals</button>
+            <canvas id="editorCanvas"></canvas>
         </div>
-      </div>
+
+        <div class="column right-column">
+            <h3>Instructions</h3>
+            <ul class="instructions">
+                <li>Select the grid size and press the <em>"Create new grid"</em> button.</li>
+                <li><strong>Left click</strong> to add or remove <span class="wall">walls</span>.</li>
+                <li><strong>First right click</strong> adds the <span class="start">start cell</span>.</li>
+                <li><strong>Second right click</strong> adds the <span class="finish">finish cell</span>.</li>
+                <li>Subsequent right clicks add <span class="shelf">document shelves</span>.</li>
+                <li><em>Note:</em> Adding more than 7 documents is not recommended due to factorial complexity (O(n!)).
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
-
-
-
-
-
-
-
-
-
+    <script src="js/editor.js"></script>
 </body>
 
 </html>

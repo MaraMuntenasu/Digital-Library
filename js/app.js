@@ -1,22 +1,27 @@
 let allRuns = [];
 
+const config = JSON.parse(localStorage.getItem("robotGridConfig"));
+
+if (!config) {
+  alert("No grid configuration found. Go back to the index page to set it up.");
+  throw new Error("Missing config");
+}
+
+const grid = config.grid;
+const start = config.start;
+const finish = config.finish;
+const shelves = config.shelves;
+
+const canvasSize = 600; // fixed total size of the canvas
+const rows = grid.length;
+const cols = grid[0].length;
+const cellSize = canvasSize / Math.max(rows, cols);
+
 window.onload = () => {
   const canvas = document.getElementById('gridCanvas');
+  canvas.width = canvasSize;
+  canvas.height = canvasSize;
   const ctx = canvas.getContext('2d');
-  const cellSize = 100;
-
-  const grid = [
-    [0, 0, 0, 0, 0, 0],
-    [0, 1, 0, 1, 0, 0],
-    [0, 1, 0, 1, 0, 0],
-    [0, 0, 0, 0, 0, 0],
-    [0, 1, 0, 1, 0, 0],
-    [0, 1, 0, 1, 0, 0],
-  ];
-
-  const start = [0, 0];
-  const finish = [5, 5];
-  const shelves = [[0, 1], [0, 3], [3, 1], [3, 3]];
 
   const permutations = getPermutations(shelves);
   let bestPath = null;
@@ -83,56 +88,49 @@ function updateResults(cost, order, path) {
     `[${path.map(p => `(${p[0]}, ${p[1]})`).join(', ')}]`;
 }
 
-
 function populatePermutationList(grid, cellSize, ctx, start, finish) {
-    const permCount = document.getElementById("permCount");
-    const permDropdown = document.getElementById("permDropdown");
-    const loadBtn = document.getElementById("loadVisualsBtn");
-  
-    permCount.textContent = allRuns.length;
-    permDropdown.innerHTML = "";
-  
-    allRuns.forEach((run, index) => {
-      const option = document.createElement("option");
-      option.value = index.toString(); 
-      option.textContent = `#${index + 1} — Steps: ${run.cost} — ${run.order.map(p => `(${p[0]},${p[1]})`).join(' → ')}`;
-      permDropdown.appendChild(option);
-    });
-  
-    loadBtn.onclick = () => {
-      const selectedIndex = permDropdown.value;
-      if (selectedIndex !== "") {
-        loadPermutation(parseInt(selectedIndex));
-        scrollToCanvas();
-      }
-    };
-  }
-  
+  const permCount = document.getElementById("permCount");
+  const permDropdown = document.getElementById("permDropdown");
+  const loadBtn = document.getElementById("loadVisualsBtn");
 
-  function loadPermutation(index) {
-    const canvas = document.getElementById('gridCanvas');
-    const ctx = canvas.getContext('2d');
-    const cellSize = 100;
-  
-    const run = allRuns[index];
-  
-    const grid = [
-      [0, 0, 0, 0, 0, 0],
-      [0, 1, 0, 1, 0, 0],
-      [0, 1, 0, 1, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [0, 1, 0, 1, 0, 0],
-      [0, 1, 0, 1, 0, 0],
-    ];
-    const start = [0, 0];
-    const finish = [5, 5];
-  
-    drawGrid(ctx, grid, cellSize, run.path, start, finish, run.order);
-    updateResults(run.cost, run.order, run.path);
-  }
-  
-  function scrollToCanvas() {
-    const canvas = document.getElementById("gridCanvas");
-    canvas.scrollIntoView({ behavior: "smooth", block: "center" });
-  }
-  
+  permCount.textContent = allRuns.length;
+  permDropdown.innerHTML = "";
+
+  // Find the best cost among allRuns
+  const bestCost = Math.min(...allRuns.map(run => run.cost));
+
+  allRuns.forEach((run, index) => {
+    const option = document.createElement("option");
+    const isBest = run.cost === bestCost;
+
+    option.value = index.toString();
+    option.textContent = `#${index + 1} — Steps: ${run.cost} — ${run.order.map(p => `(${p[0]},${p[1]})`).join(' → ')}` + (isBest ? " ⭐" : "");
+    permDropdown.appendChild(option);
+  });
+
+  loadBtn.onclick = () => {
+    const selectedIndex = permDropdown.value;
+    if (selectedIndex !== "") {
+      loadPermutation(parseInt(selectedIndex));
+      scrollToCanvas();
+    }
+  };
+}
+
+
+function loadPermutation(index) {
+  const canvas = document.getElementById('gridCanvas');
+  canvas.width = canvasSize;
+  canvas.height = canvasSize;
+  const ctx = canvas.getContext('2d');
+
+  const run = allRuns[index];
+
+  drawGrid(ctx, grid, cellSize, run.path, start, finish, run.order);
+  updateResults(run.cost, run.order, run.path);
+}
+
+function scrollToCanvas() {
+  const canvas = document.getElementById("gridCanvas");
+  canvas.scrollIntoView({ behavior: "smooth", block: "center" });
+}
