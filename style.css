@@ -1,4 +1,4 @@
-
+/* ===== Reset and Base ===== */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,152 +6,168 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", Roboto, Helvetica, sans-serif;
     background-color: #f4f6f9;
     color: #333;
     padding: 2rem;
     line-height: 1.6;
 }
 
-/* Layout */
+/* ===== Header ===== */
+h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: #2c3e50;
+}
+
+/* ===== Layout ===== */
 .columns {
     display: flex;
     gap: 2rem;
-    /* Optional spacing between columns */
-    height: 100vh;
-    /* Fill full screen height */
-    box-sizing: border-box;
-    padding: 1rem;
-    /* Optional padding */
-    overflow: hidden;
+    align-items: flex-start;
+    max-width: 1250px;
+    margin: 0 auto;
+    flex-wrap: wrap;
 }
 
-.left-column {
-    width: 40%;
+.column {
+    flex: 1;
+    min-width: 300px;
+}
+
+.column.canvas-column {
+    flex: 2;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    align-items: center;
 }
 
-.right-column {
-    width: 60%;
-    overflow-y: auto;
+/* ===== Canvas ===== */
+canvas {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: #ffffff;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: block;
 }
 
-body {
-    font-family: sans-serif;
-    overflow: hidden; /* Prevent scrolling */
-  }
-  
-  html {
-    height: 100%;
-  }
-
-
-/* Typography */
-h1 {
-    font-size: 2rem;
-    color: #222;
-}
-
-h3 {
-    margin-bottom: 1rem;
-    color: #444;
-}
-
-/* Controls */
+/* ===== Controls ===== */
 #controls {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
 }
 
 #controls label {
     font-weight: 500;
-    margin-bottom: 0.3rem;
 }
 
-input[type="number"] {
+#controls input[type="number"] {
     padding: 0.4rem;
-    border-radius: 6px;
+    width: 60px;
     border: 1px solid #ccc;
-    width: 100px;
+    border-radius: 5px;
 }
 
-/* Buttons */
 button {
     padding: 0.5rem 1rem;
-    border: none;
-    background-color: #2d89ef;
+    background-color: #4CAF50;
     color: white;
+    border: none;
     border-radius: 6px;
     cursor: pointer;
-    font-weight: 500;
-    transition: background 0.2s ease;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease;
 }
 
 button:hover {
-    background-color: #1b61c2;
+    background-color: #45a049;
 }
 
-/* Canvas */
-canvas {
-    width: 100%;
-    /* Stretch to fit column */
-    height: auto;
-    /* Keep aspect ratio */
-    display: block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-}
-
-/* Instructions List */
+/* ===== Instructions List ===== */
 .instructions {
     list-style: none;
     padding: 1rem;
-    background: #ffffff;
-    border-left: 4px solid #888;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    background-color: #fff;
+    border-left: 5px solid #4CAF50;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .instructions li {
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.8rem;
+    padding-left: 1.2rem;
     position: relative;
-    padding-left: 1.6rem;
 }
 
 .instructions li::before {
-    content: "📌";
+    content: "✔";
     position: absolute;
     left: 0;
-    top: 0.1rem;
+    color: #4CAF50;
+    font-weight: bold;
 }
 
-.instructions .start {
+/* ===== Color Tags ===== */
+.wall {
+    color: #333;
+    font-weight: bold;
+}
+
+.start {
     color: green;
     font-weight: bold;
 }
 
-.instructions .finish {
+.finish {
     color: purple;
     font-weight: bold;
 }
 
-.instructions .shelf {
-    color: blue;
+.shelf {
+    color: red;
     font-weight: bold;
 }
 
-/* Responsive tweaks */
-@media (max-width: 700px) {
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
     .columns {
         flex-direction: column;
     }
 
-    canvas {
-        max-width: 100%;
+    .column.canvas-column {
+        order: -1;
+        /* move canvas on top */
     }
-
 }
+
+
+dropdown-container {
+    width: 100%;
+}
+
+.dropdown-container select {
+    width: 100%;
+    box-sizing: border-box;
+    max-height: 170px;   /* max height you want for the dropdown */
+
+    /* include padding/borders in width */
+    font-size: 1rem;
+    padding: 0.3rem 0.5rem;
+    overflow-y: auto;    /* enable vertical scroll if needed */
+}
+
+#loadVisualsBtn {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    cursor: pointer;
+  }
+  

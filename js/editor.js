@@ -62,33 +62,47 @@ function drawCell(row, col, color) {
 
 // Mouse interaction
 canvas.addEventListener('contextmenu', e => e.preventDefault()); // disable right-click menu
+
 canvas.addEventListener('mousedown', (e) => {
-  const rect = canvas.getBoundingClientRect();
-  const x = Math.floor((e.clientX - rect.left) / cellSize);
-  const y = Math.floor((e.clientY - rect.top) / cellSize);
-
-  if (x < 0 || y < 0 || x >= gridSize || y >= gridSize) return;
-
-  if (e.button === 0) {
-    // Left click: toggle wall
-    grid[y][x] = grid[y][x] === 1 ? 0 : 1;
-  } else if (e.button === 2) {
-    // Right click: cycle cell role
-    const pos = [y, x];
-    if (!start) start = pos;
-    else if (!finish) finish = pos;
-    else if (!shelves.some(s => s[0] === y && s[1] === x)) shelves.push(pos);
-    else {
-      // Remove if already a shelf
-      shelves = shelves.filter(s => s[0] !== y || s[1] !== x);
-      if (arraysEqual(start, pos)) start = null;
-      if (arraysEqual(finish, pos)) finish = null;
+    const rect = canvas.getBoundingClientRect();
+    const x = Math.floor((e.clientX - rect.left) / cellSize);
+    const y = Math.floor((e.clientY - rect.top) / cellSize);
+  
+    if (x < 0 || y < 0 || x >= gridSize || y >= gridSize) return;
+  
+    if (e.button === 0) {
+      // Left click: toggle wall
+      grid[y][x] = grid[y][x] === 1 ? 0 : 1;
+    } else if (e.button === 2) {
+      // Right click: cycle cell role
+      const pos = [y, x];
+      
+      if (!start) {
+        start = pos;
+      } else if (!finish) {
+        finish = pos;
+      } else {
+        // Check if already a shelf
+        const isShelf = shelves.some(s => s[0] === y && s[1] === x);
+        
+        if (!isShelf) {
+          if (shelves.length >= 7) {
+            alert("You cannot add more than 7 shelves.");
+            return;  // prevent adding
+          }
+          shelves.push(pos);
+        } else {
+          // Remove shelf if clicked again
+          shelves = shelves.filter(s => s[0] !== y || s[1] !== x);
+          if (arraysEqual(start, pos)) start = null;
+          if (arraysEqual(finish, pos)) finish = null;
+        }
+      }
     }
-  }
-
-  drawEditorGrid();
-});
-
+  
+    drawEditorGrid();
+  });
+  
 function arraysEqual(a, b) {
   return a && b && a.length === b.length && a.every((v, i) => v === b[i]);
 }
